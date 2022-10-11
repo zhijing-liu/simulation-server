@@ -18,6 +18,11 @@ export default [
                 //     //     check:(data)=>+data>1
                 //     // }
                 // },
+                body: {
+                        type: 'object',
+                        necessary: true,
+                        check:(data)=>true
+                },
                 request: (checkResult) => ({
                     result: 'success',
                     data: {
@@ -54,11 +59,6 @@ export default [
                         error: 1000
                     }
                 },
-                // body: {
-                //         type: 'object',
-                //         necessary: true,
-                //         check:(data)=>true
-                // },
                 params: {
                     userType: {
                         necessary: true,
@@ -94,25 +94,6 @@ export default [
                         error: 1000
                     }
                 },
-                // body: {
-                //         type: 'object',
-                //         necessary: true,
-                //         check:(data)=>true
-                // },
-                // params: {
-                //     userType: {
-                //         necessary: true,
-                //         check: (data) => true
-                //     },
-                //     fileId: {
-                //         necessary: true,
-                //         check: (data) => true
-                //     },
-                //     userId: {
-                //         necessary: true,
-                //         check: (data) => true
-                //     }
-                // },
                 request: (checkResult) => ({
                     result: 'success',
                     data: true
@@ -138,7 +119,8 @@ export const requestFormat = (path, {customData, staticManager}, request, note) 
         code: customData.codeList[request.result],
         data: request.data,
         note,
-        path
+        path,
+        result:request.result
     }
 }
 
