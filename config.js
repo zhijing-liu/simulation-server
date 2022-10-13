@@ -1,5 +1,5 @@
-export default [
-    {
+export const config = {
+    'qyd-ofd': {
         serverName: "ofd",
         description: "轻阅读接口模拟器",
         port: 8080,
@@ -19,9 +19,9 @@ export default [
                 //     // }
                 // },
                 body: {
-                        type: 'object',
-                        necessary: true,
-                        check:(data)=>true
+                    type: 'object',
+                    necessary: true,
+                    check: (data) => true
                 },
                 request: (checkResult) => ({
                     result: 'success',
@@ -99,28 +99,382 @@ export default [
                     data: true
                 })
             },
+        },
+        /**
+         * requestFormat
+         * @param path 请求路径
+         * @param customData 自定义数据
+         * @param staticManager 是否为静态资源模拟器
+         * @param request 请求结果
+         * @param note 日志
+         * @returns  自定义返回
+         */
+        requestFormat: (path, {customData, staticManager}, request, note) => {
+            return {
+                code: customData.codeList[request.result],
+                data: request.data,
+                note,
+                path,
+                result: request.result
+            }
         }
     },
-    {
+    'qyd-static': {
         serverName: 'static',
         description: '轻阅读静态资源模拟器',
-        port: '8888',
+        port: 8888,
         paths: {
-            '/static/*':{
+            '/static/*': {
                 staticManager: {
-                    path:'./static'
+                    path: './static'
                 },
             }
         }
-    }
-]
-export const requestFormat = (path, {customData, staticManager}, request, note) => {
-    return {
-        code: customData.codeList[request.result],
-        data: request.data,
-        note,
-        path,
-        result:request.result
+    },
+    kxq: {
+        serverName: 'kxq',
+        description: '可信签接口模拟器',
+        port: 8082,
+        paths: {
+            '/trustedsign/applet/doLogin/*': { // 登录
+                type: 'get',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: (checkResult) => ({
+                    result: 'success',
+                    data: {
+                        openId: "oM7r95KOzn3wCwR20h5Gbo6oZcsY",
+                        userInfo: {
+                            userId: "testUser1",
+                            accountId: "oM7r95KOzn3wCwR20h5Gbo6oZcsY",
+                            userName: "测试用户1",
+                            realName: 0,
+                            token: "8aecc450bab2484cb5a858407461b585"
+                        },
+                        newUser: false
+                    }
+                })
+            },
+            '/trustedsign/applet/contract/checkCode': { // 发送验证码
+                type: 'post',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                body: {
+                    type: 'object',
+                    necessary: true,
+                    check: (data) => true
+                },
+                request: (checkResult) => ({
+                    result: 'success',
+                    data: {}
+                })
+            },
+            '/trustedsign/applet/contract/getAllContract': { // 获取列表
+                type: 'get',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: (checkResult) => ({
+                    result: 'success',
+                    data: [
+                        {
+                            "docId": "1232",
+                            "typeId": "1",
+                            "typeName": "图片",
+                            "dirId": "432fw",
+                            "docName": "附件1",
+                            "docCode": "fefw2",
+                            "endDate": "2022-10-12 09:57:31",
+                            "companyId": "43242",
+                            "companyName": "测试公司",
+                            "organizeId": "242432",
+                            "organizedNo": "23432",
+                            "organizeName": "测试组织",
+                            "flowid": "32342",
+                            "instId": "42654",
+                            "reportId": "64654",
+                            "docUsers": "42",
+                            "startTime": "2022-10-11 09:58:18",
+                            "endTime": "2022-10-13 09:58:24",
+                            "docAmount": 4234.00,
+                            "secondParty": "423423",
+                            "thirdParty": "42",
+                            "docComment": "42",
+                            "signState": "42",
+                            "dqzt": "1",
+                            "docStart": "2022-10-12 09:58:10",
+                            "docEnd": "2022-10-12 09:58:12",
+                            "newNodeuser": "243",
+                            "completeCallUrl": "432",
+                            "createUserUniqueId": "4243",
+                            "createAccountId": "423432",
+                            "ordinal": 42,
+                            "bizId": "423",
+                            "firsttime": "2022-10-12 09:58:41",
+                            "lasttime": "2022-10-12 09:58:43",
+                            "crYhid": "testUser1",
+                            "crYhxm": "42",
+                            "crDeptid": "432",
+                            "crDeptname": "测试部门",
+                            "crEntid": "43",
+                            "insureStart": "2022-10-12 09:59:08",
+                            "insureEnd": "2022-10-12 09:59:11",
+                            "isRenewal": 1,
+                            "isLegalReview": 1
+                        },
+                        {
+                            "docId": "1232234",
+                            "typeId": "1",
+                            "typeName": "图片1",
+                            "dirId": "432fw32",
+                            "docName": "附件2",
+                            "docCode": "fefw223",
+                            "endDate": "2022-10-12 09:57:31",
+                            "companyId": "432422",
+                            "companyName": "测试公司2",
+                            "organizeId": "242432",
+                            "organizedNo": "23432",
+                            "organizeName": "测试组织",
+                            "flowid": "32342",
+                            "instId": "42654",
+                            "reportId": "64654",
+                            "docUsers": "42",
+                            "startTime": "2022-10-11 09:58:18",
+                            "endTime": "2022-10-13 09:58:24",
+                            "docAmount": 4234.00,
+                            "secondParty": "423423",
+                            "thirdParty": "42",
+                            "docComment": "42",
+                            "signState": "42",
+                            "dqzt": "1",
+                            "docStart": "2022-10-12 09:58:10",
+                            "docEnd": "2022-10-12 09:58:12",
+                            "newNodeuser": "243",
+                            "completeCallUrl": "432",
+                            "createUserUniqueId": "4243",
+                            "createAccountId": "423432",
+                            "ordinal": 42,
+                            "bizId": "423",
+                            "firsttime": "2022-10-12 09:58:41",
+                            "lasttime": "2022-10-12 09:58:43",
+                            "crYhid": "testUser1",
+                            "crYhxm": "42",
+                            "crDeptid": "432",
+                            "crDeptname": "测试部门",
+                            "crEntid": "43",
+                            "insureStart": "2022-10-12 09:59:08",
+                            "insureEnd": "2022-10-12 09:59:11",
+                            "isRenewal": 1,
+                            "isLegalReview": 1
+                        },
+                        {
+                            "docId": "12322346",
+                            "typeId": "1",
+                            "typeName": "图片2",
+                            "dirId": "432fw",
+                            "docName": "附件3",
+                            "docCode": "fefw2234",
+                            "endDate": "2022-10-12 09:57:31",
+                            "companyId": "43242",
+                            "companyName": "测试公司3",
+                            "organizeId": "242432",
+                            "organizedNo": "23432",
+                            "organizeName": "测试组织3",
+                            "flowid": "32342",
+                            "instId": "42654",
+                            "reportId": "64654",
+                            "docUsers": "42",
+                            "startTime": "2022-10-11 09:58:18",
+                            "endTime": "2022-10-13 09:58:24",
+                            "docAmount": 4234.00,
+                            "secondParty": "423423",
+                            "thirdParty": "42",
+                            "docComment": "42",
+                            "signState": "42",
+                            "dqzt": "1",
+                            "docStart": "2022-10-12 09:58:10",
+                            "docEnd": "2022-10-12 09:58:12",
+                            "newNodeuser": "243",
+                            "completeCallUrl": "432",
+                            "createUserUniqueId": "4243",
+                            "createAccountId": "423432",
+                            "ordinal": 42,
+                            "bizId": "423",
+                            "firsttime": "2022-10-12 09:58:41",
+                            "lasttime": "2022-10-12 09:58:43",
+                            "crYhid": "testUser1",
+                            "crYhxm": "42",
+                            "crDeptid": "432",
+                            "crDeptname": "测试部门",
+                            "crEntid": "43",
+                            "insureStart": "2022-10-12 09:59:08",
+                            "insureEnd": "2022-10-12 09:59:11",
+                            "isRenewal": 1,
+                            "isLegalReview": 1
+                        }
+                    ]
+                })
+            },
+            '/trustedsign/applet/contract/delete/*': { // 删除任务
+                type: 'get',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: (checkResult) => ({
+                    result: 'success',
+                    data: true
+                })
+            },
+            '/trustedsign/applet/contract/getProcessByDocId/*': { // 获取详细信息
+                type: 'get',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: (checkResult) => ({
+                    result: 'success',
+                    data: [
+                        {
+                            processId: "2432",
+                            instNodeid: "4324",
+                            instId: "432",
+                            docId: "1232",
+                            docName: "测试1",
+                            companyId: "3242",
+                            companyName: "测试公司1",
+                            userId: "testUser1",
+                            userName: "测试用户1",
+                            signDate: "2022-10-1210:46:26",
+                            signOpinion: "1",
+                            dqzt: "系统",
+                            fileId: "232"
+                        }
+                    ]
+                })
+            },
+            '/trustedsign/applet/login/verifyToken': { // 校验code
+                type: 'post',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: (checkResult) => ({
+                    result: 'success',
+                    data: true
+                })
+            },
+            '/trustedsign/applet/signature/getMySignature': { // 获取章
+                type: 'get',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: (checkResult) => ({
+                    result: 'success',
+                    "data": [
+                        {
+                            "signId": "56d0ad200ab04bc59cf1c6dc2d3874a4",
+                            "signWidth": 432.00,
+                            "signHeight": 324.00,
+                            "signImage": "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",
+                            "firsttime": "2022-10-13 11:56:05"
+                        },
+                    ]
+                })
+            },
+            '/trustedsign/applet/signature/createSignature/': {
+                type: 'post',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: {
+                    result: true,
+                    data: true
+                }
+            },
+            '/trustedsign/trustedsign/applet/signature/*':{
+                type:'get',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request:{
+                    result:true,
+                    data:true
+                }
+            }
+        },
+        requestFormat: (path, {customData, staticManager}, request, note) => {
+            return {
+                code: customData.codeList[request.result],
+                data: request.data,
+                msg: customData.messageList[request.result],
+                note,
+                path,
+                result: request.result
+            }
+        }
     }
 }
 

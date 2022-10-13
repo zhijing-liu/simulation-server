@@ -5,10 +5,11 @@ import chalk from 'chalk'
 import {readFileSync} from 'fs'
 import {join, resolve, normalize} from 'path'
 // 配置文件
-import config, {requestFormat} from './config.js'
+import {config} from './config.js'
 
 // 启动时避免因修改config.js 导致nodemon刷新引起的日志不连贯
 console.clear()
+const take = process.argv[2] ? process.argv.slice(2) : Object.keys(config)
 // 配置文件解析
 const getStaticFile = (baseDirectory, path) => {
     try {
@@ -21,7 +22,7 @@ const getStaticFile = (baseDirectory, path) => {
         }
     }
 }
-for (const data of config) {
+const createRoute = (data) => {
     const app = express()
     // body json解析
     app.use(parser.json())
@@ -80,12 +81,15 @@ ${chalk.rgb(180, 127, 187).bold('↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑�
                 } else {
                     request = conf.request
                 }
-                res.send(requestFormat(path, conf, request, note))
+                res.send(data.requestFormat(path, conf, request, note))
             })
         }
     }
     // 启动监听服务
-    app.listen(data.port, () => {
+    app.listen(data.port, '0.0.0.0', () => {
         console.log(`端口 ${chalk.rgb(255, 0, 0).bold(data.port)} 服务已启动，--${chalk.rgb(26, 87, 85).bold(data.description)}`)
     })
+}
+for (const key of take) {
+    config[key] && createRoute(config[key])
 }
