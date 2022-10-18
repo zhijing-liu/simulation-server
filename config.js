@@ -447,8 +447,8 @@ export const config = {
                     data: true
                 }
             },
-            '/trustedsign/trustedsign/applet/signature/*':{
-                type:'get',
+            '/trustedsign/applet/user/queryExtend': {
+                type: 'post',
                 customData: {
                     codeList: {
                         success: 0,
@@ -459,11 +459,180 @@ export const config = {
                         error: '失败'
                     },
                 },
-                request:{
-                    result:true,
-                    data:true
+                request: {
+                    result: true,
+                    data: new Array(50).fill(
+                        {
+                            userId: "testUser1",
+                            accountId: "oM7r95KOzn3wCwR20h5Gbo6oZcsY",
+                            userName: "测试用户1",
+                            password: "xdj",
+                            salt: "132132",
+                            licenseType: 1,
+                            realName: 0,
+                            dqzt: "系统",
+                            firsttime: "2022-10-11 16:33:49",
+                            lasttime: "2022-10-11 16:33:52",
+                            crYhid: "system",
+                            crYhxm: "系统",
+                            crDeptid: "system",
+                            crDeptname: "系统",
+                            crEntid: "ent001"
+                        }
+                    )
                 }
-            }
+            },
+            '/trustedsign/applet/user/addExtend': {
+                type: 'post',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: {
+                    result: true,
+                    data: true
+                }
+            },
+            '/trustedsign/applet/user/queryUser': {
+                type: 'post',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: {
+                    result: true,
+                    data: new Array(50).fill(
+                        {
+                            userId: "testUser1",
+                            accountId: "oM7r95KOzn3wCwR20h5Gbo6oZcsY",
+                            userName: "测试用户1",
+                            password: "xdj",
+                            salt: "132132",
+                            licenseType: 1,
+                            realName: 0,
+                            dqzt: "系统",
+                            firsttime: "2022-10-11 16:33:49",
+                            lasttime: "2022-10-11 16:33:52",
+                            crYhid: "system",
+                            crYhxm: "系统",
+                            crDeptid: "system",
+                            crDeptname: "系统",
+                            crEntid: "ent001"
+                        }
+                    )
+                }
+            },
+            '/trustedsign/applet/contract/create': {
+                type: 'post',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: {
+                    result: true,
+                    data: true
+                }
+            },
+            '/trustedsign/applet/user/submitExtend': {
+                type: 'post',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: {
+                    result: true,
+                    data: true
+                }
+            },
+            '/trustedsign/trustedsign/applet/signature/*': {
+                type: 'get',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: {
+                    result: true,
+                    data: true
+                }
+            },
+            '/trustedsign/applet/signFlow/join/*': {
+                type: 'get',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: {
+                    result: true,
+                    data: true
+                }
+            },
+            '/trustedsign/applet/user/queryExtendRequest': {
+                type: 'get',
+                customData: {
+                    codeList: {
+                        success: 0,
+                        error: 1000
+                    },
+                    messageList: {
+                        success: '成功',
+                        error: '失败'
+                    },
+                },
+                request: {
+                    result: true,
+                    data: [
+                        {
+                            contactId:"f3a3d187b9984d7fa11637685ecb24e6",
+                            partnerId:"testUser1",
+                            contactName:"admin",
+                            contactUserId:"admin",
+                            dqzt:"有效",
+                            firsttime:"2022-10-1810:35:10",
+                            lasttime:"2022-10-1810:35:10",
+                            crYhid:"admin",
+                            crYhxm:"admin",
+                            crEntid:"ent001"
+                        }
+                    ]
+                }
+            },
+
         },
         requestFormat: (path, {customData, staticManager}, request, note) => {
             return {
